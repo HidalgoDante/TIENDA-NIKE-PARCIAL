@@ -2,19 +2,59 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar Sesión</title>
+    <title>Login | Tienda Nike</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
     <h2>Iniciar Sesión</h2>
-    <form method="POST" action="login.php">
-        <label>Usuario:</label><br>
-        <input type="text" name="usuario" required><br><br>
-        <label>Contraseña:</label><br>
-        <input type="password" name="contrasena" required><br><br>
-        <button type="submit">Entrar</button>
+
+    <form id="loginForm">
+        <label>Email:</label>
+        <input type="email" id="email" required>
+
+        <label>Contraseña:</label>
+        <input type="password" id="password" required>
+
+        <button type="submit">Ingresar</button>
     </form>
-    <br>
-    <a href="index.html">Volver al Inicio</a>
+
+    <p id="mensaje" style="text-align:center; color:red;"></p>
+
+<!-- --------------- FIREBASE SCRIPT --------------- -->
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBoR67MQBwDdGhmA42zqzskbK3Vzj0-8TY",
+  authDomain: "tienda-nike-8750e.firebaseapp.com",
+  projectId: "tienda-nike-8750e",
+  storageBucket: "tienda-nike-8750e.firebasestorage.app",
+  messagingSenderId: "938431952944",
+  appId: "1:938431952944:web:c509f925768d928d6d95f5"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("password").value;
+
+    try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        window.location.href = "index.html"; // Página principal
+    } catch (error) {
+        document.getElementById("mensaje").textContent = "Error: " + error.message;
+    }
+});
+
+</script>
+
 </body>
 </html>
