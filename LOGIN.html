@@ -2,30 +2,32 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Login | Tienda Nike</title>
+    <title>Registrarse | Tienda Nike</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <h2>Iniciar Sesión</h2>
+<h2>Crear Cuenta</h2>
 
-    <form id="loginForm">
-        <label>Email:</label>
-        <input type="email" id="email" required>
+<form id="registerForm">
+    <label>Email:</label>
+    <input type="email" id="email" required>
 
-        <label>Contraseña:</label>
-        <input type="password" id="password" required>
+    <label>Contraseña:</label>
+    <input type="password" id="password" required>
 
-        <button type="submit">Ingresar</button>
-    </form>
+    <button type="submit">Registrarse</button>
+</form>
 
-    <p id="mensaje" style="text-align:center; color:red;"></p>
+<p id="mensaje" style="text-align:center; color:red;"></p>
+
+<a href="LOGIN.html" style="display:block; text-align:center;">Ya tengo cuenta → Iniciar sesión</a>
+
 
 <!-- --------------- FIREBASE SCRIPT --------------- -->
 <script type="module">
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } 
+import { getAuth, createUserWithEmailAndPassword } 
 from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -40,20 +42,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
+document.getElementById("registerForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const email = document.getElementById("email").value;
     const pass = document.getElementById("password").value;
 
     try {
-        await signInWithEmailAndPassword(auth, email, pass);
-        window.location.href = "index.html"; // Página principal
+        await createUserWithEmailAndPassword(auth, email, pass);
+        window.location.href = "LOGIN.html";
     } catch (error) {
         document.getElementById("mensaje").textContent = "Error: " + error.message;
     }
 });
-
 </script>
 
 </body>
